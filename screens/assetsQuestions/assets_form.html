@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cuestionario CIDP</title>
+</head>
+<body>
+    <h2>Cuestionario CIDP para cada activo</h2>
+    <form id="cidForm"></form>
+    <button id="submitBtn">Enviar</button>
+
+    <script>
+        const activos = JSON.parse(localStorage.getItem('inventarioEditado') || '[]');
+        const form = document.getElementById('cidForm');
+
+        activos.forEach((activo, idx) => {
+            form.innerHTML += `
+                <fieldset>
+                    <legend><strong>${activo.sistema}</strong></legend>
+
+                    <p><strong>Confidencialidad:</strong> Si esta información llegara a ser conocida por individuos no autorizados o incluso hecha pública...</p>
+                    <label><input type="radio" name="c${idx}" value="3" required> Completamente (Valor: 3)</label><br>
+                    <label><input type="radio" name="c${idx}" value="2"> Más o menos (Valor: 2)</label><br>
+                    <label><input type="radio" name="c${idx}" value="1"> Casi nada (Valor: 1)</label>
+
+                    <p><strong>Integridad:</strong> Si esta información llegara a ser alterada indebidamente...</p>
+                    <label><input type="radio" name="i${idx}" value="3" required> Completamente (Valor: 3)</label><br>
+                    <label><input type="radio" name="i${idx}" value="2"> Más o menos (Valor: 2)</label><br>
+                    <label><input type="radio" name="i${idx}" value="1"> Casi nada (Valor: 1)</label>
+
+                    <p><strong>Disponibilidad:</strong> Si esta información llegara a no estar disponible...</p>
+                    <label><input type="radio" name="d${idx}" value="3" required> Completamente (Valor: 3)</label><br>
+                    <label><input type="radio" name="d${idx}" value="2"> Más o menos (Valor: 2)</label><br>
+                    <label><input type="radio" name="d${idx}" value="1"> Casi nada (Valor: 1)</label>
+
+                    <p><strong>¿Este activo procesa datos personales o sensibles?</strong></p>
+                    <label><input type="radio" name="usaPrivacidad${idx}" value="si" required onchange="togglePrivacidad(${idx}, true)"> Sí</label><br>
+                    <label><input type="radio" name="usaPrivacidad${idx}" value="no" onchange="togglePrivacidad(${idx}, false)"> No</label>
+
+                    <div id="privacidad${idx}" style="display: none; margin-top: 10px;">
+                        <p><strong>Privacidad:</strong> Si contiene datos identificables como nombre, CI, teléfono, etc.</p>
+                        <label><input type="radio" name="p${idx}" value="3"> Completamente (Valor: 3)</label><br>
+                        <label><input type="radio" name="p${idx}" value="2"> Más o menos (Valor: 2)</label><br>
+                        <label><input type="radio" name="p${idx}" value="1"> Casi nada (Valor: 1)</label>
+                    </div>
+                </fieldset>
+                <br>
+            `;
+        });
+
+        function togglePrivacidad(idx, mostrar) {
+            document.getElementById(`privacidad${idx}`).style.display = mostrar ? 'block' : 'none';
+        }
+
+        document.getElementById('submitBtn').onclick = () => {
+            const formData = new FormData(form);
+            const resultadosCIDP = activos.map((activo, idx) => {
+                const c = parseInt(formData.get(`c${idx}`));
+                const i = parseInt(formData.get(`i${idx}`));
+                const d = parseInt(formData.get(`d${idx}`));
+                const usaPrivacidad = formData.get(`usaPrivacidad${idx}`) === 'si';
+                const p = usaPrivacidad ? parseInt(formData.get(`p${idx}`)) || 1 : 0;
+
+                // Porcentajes personalizados:
+                const porcentajeC = c === 3 ? 30 : c === 2 ? 20 : 10;
+                const porcentajeI = i === 3 ? 30 : i === 2 ? 20 : 10;
+                const porcentajeD = d === 3 ? 30 : d === 2 ? 20 : 10;
+                const porcentajeP = p === 3 ? 10 : p === 2 ? 5 : p === 1 ? 1 : 0;
+
+                const total = porcentajeC + porcentajeI + porcentajeD + porcentajeP;
+
+                let nivel = '';
+                if (total <= 40) nivel = 'USO PÚBLICO O GENERAL';
+                else if (total <= 60) nivel = 'USO INTERNO O PRIVADO';
+                else nivel = 'CRÍTICO O CONFIDENCIAL';
+
+                return {
+                    ...activo,
+                    confidencialidad: { valor: c, porcentaje: `${porcentajeC}%` },
+                    integridad: { valor: i, porcentaje: `${porcentajeI}%` },
+                    disponibilidad: { valor: d, porcentaje: `${porcentajeD}%` },
+                    privacidad: usaPrivacidad ? { valor: p, porcentaje: `${porcentajeP}%` } : null,
+                    clasificacionTotal: total,
+                    nivel
+                };
+            });
+
+            localStorage.setItem('resultadosCID', JSON.stringify(resultadosCIDP));
+            window.location.href = 'assets_numbers_results.html';
+        };
+    </script>
+</body>
+</html>

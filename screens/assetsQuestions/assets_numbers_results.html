@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Clasificación Final</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid black; padding: 5px; text-align: center; }
+        th { background: #03A9F4; color: white; }
+    </style>
+</head>
+<body>
+    <h2>Clasificación Final de Activos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2">ACTIVO DE INFORMACIÓN</th>
+                <th colspan="2" style="background:#ef6c00">CONFIDENCIALIDAD</th>
+                <th colspan="2" style="background:#ffccbc">INTEGRIDAD</th>
+                <th colspan="2" style="background:#ffee58">DISPONIBILIDAD</th>
+                <th rowspan="2">%</th>
+                <th rowspan="2">NIVEL</th>
+            </tr>
+            <tr>
+                <th>Valor</th><th>Porcentaje</th>
+                <th>Valor</th><th>Porcentaje</th>
+                <th>Valor</th><th>Porcentaje</th>
+            </tr>
+        </thead>
+        <tbody id="tablaFinal"></tbody>
+    </table>
+
+    <script>
+        const resultados = JSON.parse(localStorage.getItem('resultadosCID') || '[]');
+        const tbody = document.getElementById('tablaFinal');
+
+        resultados.forEach(activo => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${activo.sistema}</td>
+                <td>${activo.confidencialidad.valor}</td>
+                <td>${activo.confidencialidad.porcentaje}</td>
+                <td>${activo.integridad.valor}</td>
+                <td>${activo.integridad.porcentaje}</td>
+                <td>${activo.disponibilidad.valor}</td>
+                <td>${activo.disponibilidad.porcentaje}</td>
+                <td>${activo.clasificacionTotal}%</td>
+                <td>${activo.nivel}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    </script>
+</body>
+</html>
