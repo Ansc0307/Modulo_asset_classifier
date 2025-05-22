@@ -3,320 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Clasificación Directa de Activos</title>
-    <style>
-        table { border-collapse: collapse; width: 100%; margin-bottom: 30px;}
-        th, td { border: 1px solid #1a237e; padding: 6px 8px; text-align: center;}
-        th { background: #1a237e; color: #fff; }
-        .nivel { font-weight: bold; }
-        .resaltado { background: #ffe082; }
-        .critico { background: #ffcdd2; }
-        .privacidad { background: #fffde7; }
-        .total { font-weight: bold; background: #e3f2fd; }
-        .clasificacion { font-weight: bold; background: #fff9c4; }
-        select { width: 90px; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <!-- Botón de exportar y modal -->
-    <button id="btnExportar" style="margin-bottom:20px; background:#0288d1; color:#fff; border:none; padding:10px 22px; border-radius:5px; font-size:16px; cursor:pointer;">Exportar</button>
-    <div style="margin-bottom: 24px; background: #f5f5f5; border: 1px solid #1a237e; padding: 18px; border-radius: 8px;">
-        <h3 style="margin-top:0;">¿Cómo calificar?</h3>
-        <ul style="margin-bottom:0;">
-            <li>
-                <b>Confidencialidad:</b> Si esta información llegara a ser conocida por individuos no autorizados o incluso hecha pública. Afectación de procesos críticos, afectación legal, financiera, organizacional.
-            </li>
-            <li>
-                <b>Integridad:</b> Si esta información llegara a ser indebida o inadecuadamente alterada, actualizada o modificada, ya sea intencionalmente o por accidente. Afectación de procesos críticos, afectación legal, financiera, organizacional.
-            </li>
-            <li>
-                <b>Disponibilidad:</b> Si esta información llegara a no estar disponible permanentemente o por un periodo considerable de tiempo. Afectación de procesos críticos, afectación legal, financiera, organizacional.
-            </li>
-            <li>
-                <b>Privacidad:</b> Si la información es demográfica o propia del cliente, si contiene cualquier dato que por sí mismo pueda ser usado (sin tener que consultar otro activo de información) para identificar a un cliente de manera individualizada; ya sea este cliente una persona, una empresa, etc. Ejemplos: Nombre o Razón Social, Número de Teléfono, Carnet de Identidad, etc. La información es anónima si no identifica de manera específica a una persona natural/jurídica, es decir, identifica atributos propios de las personas.
-            </li>
-        </ul>
-        <p style="margin-bottom:0;"><b>Niveles:</b> Alto = 3, Medio = 2, Bajo = 1</p>
-        <p style="margin-bottom:0;"><b>Regla de confidencialidad:</b> Si Privacidad es <b>ALTO</b>, se suma 10 al porcentaje de Confidencialidad (máximo 40).</p>
-        <p style="margin-bottom:0;"><b>Clasificación final:</b> 
-            <br>0-40: USO PÚBLICO O GENERAL
-            <br>41-60: USO INTERNO O PRIVADO
-            <br>61-100: CRÍTICO O CONFIDENCIAL
-        </p>
+<body class="bg-light">
+    <div class="container py-4">
+        <!-- Botón de exportar -->
+        <button id="btnExportar" class="btn btn-primary mb-3">Exportar</button>
+
+        <!-- Descripción -->
+        <div class="alert alert-info">
+            <h5 class="mb-2">¿Cómo calificar?</h5>
+            <ul class="mb-2">
+                <li><b>Confidencialidad:</b> Si esta información llegara a ser conocida por individuos no autorizados o incluso hecha pública. Afectación de procesos críticos, afectación legal, financiera, organizacional.</li>
+                <li><b>Integridad:</b> Si esta información llegara a ser indebida o inadecuadamente alterada, actualizada o modificada, ya sea intencionalmente o por accidente. Afectación de procesos críticos, afectación legal, financiera, organizacional.</li>
+                <li><b>Disponibilidad:</b> Si esta información llegara a no estar disponible permanentemente o por un periodo considerable de tiempo. Afectación de procesos críticos, afectación legal, financiera, organizacional.</li>
+                <li><b>Privacidad:</b> Si la información es demográfica o propia del cliente, si contiene cualquier dato que por sí mismo pueda ser usado (sin tener que consultar otro activo de información) para identificar a un cliente de manera individualizada; ya sea este cliente una persona, una empresa, etc. Ejemplos: Nombre o Razón Social, Número de Teléfono, Carnet de Identidad, etc. La información es anónima si no identifica de manera específica a una persona natural/jurídica, es decir, identifica atributos propios de las personas.</li>
+            </ul>
+            <p class="mb-1"><b>Niveles:</b> Alto = 3, Medio = 2, Bajo = 1</p>
+            <p class="mb-1"><b>Regla de confidencialidad:</b> Si Privacidad es <b>ALTO</b>, se suma 10 al porcentaje de Confidencialidad (máximo 40).</p>
+            <p class="mb-0"><b>Clasificación final:</b><br>
+                0-40: USO PÚBLICO O GENERAL<br>
+                41-60: USO INTERNO O PRIVADO<br>
+                61-100: CRÍTICO O CONFIDENCIAL
+            </p>
+        </div>
+
+        <h2 class="mb-4">Clasificación Directa de Activos</h2>
+        <div id="activosContainer"></div>
     </div>
-    <h2>Clasificación Directa de Activos</h2>
-    <div id="activosContainer"></div>
 
-    
-
-    <div id="modalExportar" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:2000; align-items:center; justify-content:center;">
-      <div style="background:#fff; padding:30px; border-radius:8px; max-width:400px; margin:auto; text-align:center;">
-        <h3>¿Qué deseas exportar?</h3>
-        <button id="btnExportarInventario" style="margin:10px; padding:10px 20px;">Inventario completo</button>
-        <button id="btnExportarResumen" style="margin:10px; padding:10px 20px;">Resumen de clasificación</button>
-        <br><br>
-        <button onclick="document.getElementById('modalExportar').style.display='none'" style="margin-top:10px;">Cerrar</button>
+    <!-- Modal Bootstrap -->
+    <div class="modal fade" id="modalExportar" tabindex="-1" aria-labelledby="modalExportarLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalExportarLabel">¿Qué deseas exportar?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body text-center">
+            <button id="btnExportarInventario" class="btn btn-success m-2">Inventario completo</button>
+            <button id="btnExportarResumen" class="btn btn-info m-2">Resumen de clasificación</button>
+          </div>
+        </div>
       </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../scripts/assets_number.js"></script>
+    <script src="../../scripts/exportacion_csv.js"></script>
     <script>
-    // Porcentajes para cada atributo
-    const porcentajes = {
-        confidencialidad: 40,
-        integridad: 30,
-        disponibilidad: 30
-    };
-
-    // Valores para cada nivel
-    const valoresPorNivel = {
-        confidencialidad: {3: 40, 2: 20, 1: 10},
-        integridad: {3: 30, 2: 20, 1: 10},
-        disponibilidad: {3: 30, 2: 20, 1: 10}
-    };
-
-    // Niveles de clasificación
-    function clasificacionFinal(puntaje) {
-        if (puntaje <= 40) return "USO PÚBLICO O GENERAL";
-        if (puntaje > 40 && puntaje <= 60) return "USO INTERNO O PRIVADO";
-        if (puntaje > 60 && puntaje <= 100) return "CRÍTICO O CONFIDENCIAL";
-        return "Valores errados";
-    }
-
-    // Cargar inventario editado
-    const activos = JSON.parse(localStorage.getItem('inventarioEditado') || "[]");
-    const container = document.getElementById('activosContainer');
-
-    // Descripción de cada atributo
-    const descripciones = {
-        confidencialidad: "Si esta información llegara a ser conocida por individuos no autorizados o incluso hecha pública. Afectación de procesos críticos, afectación legal, financiera, organizacional",
-        integridad: "Si esta información llegara a ser indebida o inadecuadamente alterada, actualizada o modificada, ya sea intencionalmente o por accidente. Afectación de procesos críticos, afectación legal, financiera, organizacional.",
-        disponibilidad: "Si esta información llegara a no estar disponible permanentemente o por un periodo considerable de tiempo. Afectación de procesos críticos, afectación legal, financiera, organizacional.",
-        privacidad: "Si la información es demográfica o propia del cliente, si contiene cualquier dato que por sí mismo pueda ser usado (sin tener que consultar otro activo de información) para identificar a un cliente de manera individualizada; ya sea este cliente una persona, una empresa, etc. Ejemplos : Nombre o Razón Social, Número de Teléfono, Carnet de Identidad, etc.<br>La información es anónima si no identifica de manera específica a una persona natural / jurídica, es decir identifica atributos propios de las personas."
-    };
-
-    // Opciones de nivel
-    function nivelSelect(name, valor = 1) {
-        return `<select name="${name}">
-            <option value="3" ${valor==3?'selected':''}>Alto (3)</option>
-            <option value="2" ${valor==2?'selected':''}>Medio (2)</option>
-            <option value="1" ${valor==1?'selected':''}>Bajo (1)</option>
-        </select>`;
-    }
-
-    // Opciones de privacidad
-    function privacidadSelect(valor = 1) {
-        return `<select name="privacidad">
-            <option value="3" ${valor==3?'selected':''}>Alto</option>
-            <option value="2" ${valor==2?'selected':''}>Medio</option>
-            <option value="1" ${valor==1?'selected':''}>Bajo</option>
-        </select>`;
-    }
-
-    // Renderizar tabla para cada activo
-    activos.forEach((activo, idx) => {
-        let html = `
-        <h3>${activo.sistema} - ${activo.descripcion}</h3>
-        <form class="clasificacionForm">
-        <table>
-            <tr>
-                <th rowspan="2">PRIVACIDAD</th>
-                <td rowspan="2" class="privacidad" style="text-align:left">${descripciones.privacidad}</td>
-                <th>ALTO</th><th>MEDIO</th><th>BAJO</th>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    ${privacidadSelect()}
-                </td>
-            </tr>
-        </table>
-        <table>
-            <tr>
-                <th>NIVEL<br>(Alto=3, Medio=2, Bajo=1)</th>
-                <th>VALOR</th>
-                <th>PORCENTAJE</th>
-            </tr>
-            <tr>
-                <td class="nivel resaltado">CONFIDENCIALIDAD</td>
-                <td>
-                    ${nivelSelect('confidencialidad')}
-                </td>
-                <td class="porcentajeConf">${valoresPorNivel.confidencialidad[1]}</td>
-            </tr>
-            <tr>
-                <td class="nivel">INTEGRIDAD</td>
-                <td>
-                    ${nivelSelect('integridad')}
-                </td>
-                <td class="porcentajeInt">${valoresPorNivel.integridad[1]}</td>
-            </tr>
-            <tr>
-                <td class="nivel">DISPONIBILIDAD</td>
-                <td>
-                    ${nivelSelect('disponibilidad')}
-                </td>
-                <td class="porcentajeDisp">${valoresPorNivel.disponibilidad[1]}</td>
-            </tr>
-            <tr class="total">
-                <td>TOTAL</td>
-                <td class="totalValor">3</td>
-                <td class="totalPorcentaje">40</td>
-            </tr>
-            <tr class="clasificacion">
-                <td colspan="3" class="clasificacionFinal">NIVEL DE CLASIFICACIÓN DE LA INFORMACIÓN: <span></span></td>
-            </tr>
-        </table>
-        </form>
-        <hr>
-        `;
-
-        const div = document.createElement('div');
-        div.innerHTML = html;
-        container.appendChild(div);
-
-        const form = div.querySelector('form');
-        const privSelect = form.querySelector('select[name="privacidad"]');
-        const confSelect = form.querySelector('select[name="confidencialidad"]');
-        const intSelect = form.querySelector('select[name="integridad"]');
-        const dispSelect = form.querySelector('select[name="disponibilidad"]');
-        const totalValorTd = form.querySelector('.totalValor');
-        const totalPorcTd = form.querySelector('.totalPorcentaje');
-        const clasifSpan = form.querySelector('.clasificacionFinal span');
-        const porcentajeConfTd = form.querySelector('.porcentajeConf');
-        const porcentajeIntTd = form.querySelector('.porcentajeInt');
-        const porcentajeDispTd = form.querySelector('.porcentajeDisp');
-
-        function actualizar() {
-            let conf = parseInt(confSelect.value);
-            let integ = parseInt(intSelect.value);
-            let disp = parseInt(dispSelect.value);
-            let priv = parseInt(privSelect.value);
-
-            // Porcentaje de confidencialidad (suma 10 si privacidad es ALTO, máx 40)
-            let porcConf = valoresPorNivel.confidencialidad[conf];
-            if (priv === 3) porcConf += 10;
-            if (porcConf > 40) porcConf = 40;
-
-            // Actualizar porcentajes individuales
-            porcentajeConfTd.textContent = porcConf;
-            porcentajeIntTd.textContent = valoresPorNivel.integridad[integ];
-            porcentajeDispTd.textContent = valoresPorNivel.disponibilidad[disp];
-
-            // Calcular totales
-            let valorTotal = conf + integ + disp;
-            let porcTotal = porcConf + valoresPorNivel.integridad[integ] + valoresPorNivel.disponibilidad[disp];
-
-            totalValorTd.textContent = valorTotal;
-            totalPorcTd.textContent = porcTotal;
-            clasifSpan.textContent = clasificacionFinal(porcTotal);
-
-            // Color según clasificación
-            form.querySelector('.clasificacionFinal').style.background = 
-                porcTotal > 60 ? '#ffcdd2' : porcTotal > 40 ? '#fff9c4' : '#e3f2fd';
-        }
-
-        [privSelect, confSelect, intSelect, dispSelect].forEach(sel => {
-            sel.addEventListener('change', actualizar);
-        });
-        actualizar();
-    });
-
-    // --- Exportar CSV ---
-    function exportarCSV(nombre, filas, encabezados) {
-        let csv = encabezados.join(",") + "\n";
-        filas.forEach(fila => {
-            csv += fila.map(v => `"${(v ?? '').toString().replace(/"/g, '""')}"`).join(",") + "\n";
-        });
-        const blob = new Blob([csv], {type: "text/csv"});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = nombre;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }
-
-    // Mostrar modal
-    document.getElementById('btnExportar').onclick = function() {
-        document.getElementById('modalExportar').style.display = 'flex';
-    };
-
-    // Exportar inventario completo
-    document.getElementById('btnExportarInventario').onclick = function() {
-        // Recoge el inventario original y los valores de clasificación
-        const activos = JSON.parse(localStorage.getItem('inventarioEditado') || "[]");
-        const forms = document.querySelectorAll('.clasificacionForm');
-        let filas = [];
-        let encabezados = [
-            "Sistema", "Descripción", "Clasificación", "Propietario", "Autorizador", "Estado", "Comentarios",
-            "Confidencialidad (valor)", "Confidencialidad (%)","Privacidad (valor)",
-            "Integridad (valor)", "Integridad (%)",
-            "Disponibilidad (valor)", "Disponibilidad (%)", 
-            "Total (%)", "Nivel de Clasificación"
-        ];
-        activos.forEach((item, idx) => {
-            const form = forms[idx];
-            const conf = form.querySelector('select[name="confidencialidad"]').value;
-            const integ = form.querySelector('select[name="integridad"]').value;
-            const disp = form.querySelector('select[name="disponibilidad"]').value;
-            const priv = form.querySelector('select[name="privacidad"]').value;
-
-            // Porcentaje de confidencialidad (suma 10 si privacidad es ALTO, máx 40)
-            let porcConf = valoresPorNivel.confidencialidad[conf];
-            if (parseInt(priv) === 3) porcConf += 10;
-            if (porcConf > 40) porcConf = 40;
-
-            let porcInt = valoresPorNivel.integridad[integ];
-            let porcDisp = valoresPorNivel.disponibilidad[disp];
-            let porcTotal = porcConf + porcInt + porcDisp;
-            let clasif = clasificacionFinal(porcTotal);
-
-            filas.push([
-                item.sistema, item.descripcion, item.clasificacion, item.propietario, item.autorizador, item.estado, item.comentarios,
-                conf, porcConf, priv, integ, porcInt, disp, porcDisp, porcTotal, clasif
-            ]);
-        });
-        exportarCSV("inventario_completo.csv", filas, encabezados);
-        document.getElementById('modalExportar').style.display = 'none';
-    };
-
-    // Exportar resumen
-    document.getElementById('btnExportarResumen').onclick = function() {
-        const activos = JSON.parse(localStorage.getItem('inventarioEditado') || "[]");
-        const forms = document.querySelectorAll('.clasificacionForm');
-        let encabezados = [
-            "Activo de Información",
-            "Confidencialidad (valor)", "Confidencialidad (%)","Privacidad (valor)",
-            "Integridad (valor)", "Integridad (%)",
-            "Disponibilidad (valor)", "Disponibilidad (%)",
-            "% Total", "Nivel de Clasificación"
-        ];
-        let filas = [];
-        activos.forEach((item, idx) => {
-            const form = forms[idx];
-            const conf = form.querySelector('select[name="confidencialidad"]').value;
-            const integ = form.querySelector('select[name="integridad"]').value;
-            const disp = form.querySelector('select[name="disponibilidad"]').value;
-            const priv = form.querySelector('select[name="privacidad"]').value;
-
-            // Porcentaje de confidencialidad (suma 10 si privacidad es ALTO, máx 40)
-            let porcConf = valoresPorNivel.confidencialidad[conf];
-            if (parseInt(priv) === 3) porcConf += 10;
-            if (porcConf > 40) porcConf = 40;
-
-            let porcInt = valoresPorNivel.integridad[integ];
-            let porcDisp = valoresPorNivel.disponibilidad[disp];
-            let porcTotal = porcConf + porcInt + porcDisp;
-            let clasif = clasificacionFinal(porcTotal);
-
-            filas.push([
-                `${item.sistema} - ${item.descripcion}`,
-                conf, porcConf,priv, integ, porcInt, disp, porcDisp, porcTotal, clasif
-            ]);
-        });
-        exportarCSV("resumen_clasificacion.csv", filas, encabezados);
-        document.getElementById('modalExportar').style.display = 'none';
-    };
+        // Mostrar modal con Bootstrap
+        document.getElementById('btnExportar').onclick = function() {
+            var modal = new bootstrap.Modal(document.getElementById('modalExportar'));
+            modal.show();
+        };
     </script>
 </body>
 </html>
