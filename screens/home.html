@@ -5,10 +5,18 @@
   <title>Clasificación de Activos - Aerolínea</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/home.css">
+  <link rel="stylesheet" href="../styles/rederectbutton.css">
 </head>
 <body>
+    
+
 
   <h1>Clasificación de Activos de Información</h1>
+  
+  <button class="redirect-button" onclick="window.location.href='assets_selection.html'">
+    Ir a selección de activos
+  </button>
+
 
   <div class="section">
     <h2>¿Por qué es importante clasificar los activos?</h2>
@@ -38,10 +46,10 @@
         <td>1</td>
         <td>Sistema de Reservas</td>
         <td>Gestión de reservas y pasajeros</td>
-        <td>Alto</td>
+        <td>USO PÚBLICO O GENERAL</td>
         <td>TI</td>
         <td>Gerente de Seguridad</td>
-        <td>Activo</td>
+        <td>Vigente</td>
         <td>Evaluado en 2024</td>
       </tr>
     </table>
@@ -66,7 +74,7 @@
   </tr>
   <tr>
     <td><strong>Clasificación</strong></td>
-    <td>Indica el nivel de criticidad del activo (Alto, Medio, Bajo), esencial para asignar controles de seguridad adecuados.</td>
+    <td>Indica el nivel de criticidad del activo (CRÍTICO O CONFIDENCIAL, USO INTERNO O PRIVADO, USO PÚBLICO O GENERAL), esencial para asignar controles de seguridad adecuados.</td>
   </tr>
   <tr>
     <td><strong>Propietario</strong></td>
@@ -126,22 +134,24 @@
       <tr class="highlight">
         <th>Activo</th>
         <th>Confidencialidad<br>Valor / %</th>
+        <th>Privacidad<br>Valor / %</th>
         <th>Integridad<br>Valor / %</th>
         <th>Disponibilidad<br>Valor / %</th>
         <th>Clasificación<br>%</th>
-        <th>Nivel</th>
+        <th>Clasificación<br>Nivel</th>
       </tr>
       <tr>
         <td>Base de Datos de Pasajeros</td>
-        <td>3 / 33%</td>
-        <td>3 / 33%</td>
-        <td>2 / 22%</td>
-        <td>88%</td>
-        <td>Alto</td>
+        <td>2 / 20%</td>
+        <td>3 / 10%</td>
+        <td>3 / 30%</td>
+        <td>2 / 20%</td>
+        <td>80%</td>
+        <td>CRÍTICO O CONFIDENCIAL</td>
       </tr>
     </table>
 
-    <p class="note">La suma de porcentajes determina si el activo es de Nivel Bajo (0–33%), Medio (34–66%) o Alto (67–100%).</p>
+    <p class="note">La suma de porcentajes determina si el activo es de Nivel Bajo (USO PÚBLICO O GENERAL) (40% para bajo ), Medio (USO INTERNO O PRIVADO) (40–60%) o Alto (CRÍTICO O CONFIDENCIAL) (60% para arriba).</p>
   </div>
 
   <div class="section">
