@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario de Activos</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #1a237e; padding: 6px 8px; }
+        th { background: #1a237e; color: #fff; }
+        input, textarea { width: 98%; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <h2>Inventario de Activos Seleccionados</h2>
+    <form id="inventoryForm">
+        <table>
+            <thead>
+                <tr>
+                    <th>Sistema</th>
+                    <th>Descripción</th>
+                    <th>Clasificación</th>
+                    <th>Propietario</th>
+                    <th>Autorizador</th>
+                    <th>Estado</th>
+                    <th>Comentarios internos</th>
+                </tr>
+            </thead>
+            <tbody id="inventoryTableBody">
+                <!-- Aquí se cargan los activos seleccionados -->
+            </tbody>
+        </table>
+        <button type="submit">Guardar Cambios</button>
+    </form>
+    <script>
+        // Campos por defecto para los activos del JSON
+        const campos = [
+            "sistema",
+            "descripcion",
+            "clasificacion",
+            "propietario",
+            "autorizador",
+            "estado",
+            "comentarios"
+        ];
+
+        // Mapeo de nombres amigables
+        const nombres = {
+            sistema: "Sistema",
+            descripcion: "Descripción",
+            clasificacion: "Clasificación",
+            propietario: "Propietario",
+            autorizador: "Autorizador",
+            estado: "Estado",
+            comentarios: "Comentarios internos"
+        };
+
+        // Cargar activos seleccionados
+        const activos = JSON.parse(localStorage.getItem('activosSeleccionados') || "[]");
+        const tbody = document.getElementById('inventoryTableBody');
+
+        activos.forEach((item, idx) => {
+            const tr = document.createElement('tr');
+            // Si es manual, solo tiene sistema y descripcion
+            tr.innerHTML = `
+                <td><input name="sistema" value="${item.sistema || ''}"></td>
+                <td><input name="descripcion" value="${item.descripcion || ''}"></td>
+                <td><input name="clasificacion" value="${item.clasificacion || ''}"></td>
+                <td><input name="propietario" value="${item.propietario || ''}"></td>
+                <td><input name="autorizador" value="${item.autorizador || ''}"></td>
+                <td><input name="estado" value="${item.estado || ''}"></td>
+                <td><input name="comentarios" value="${item.comentarios || ''}"></td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        // Guardar cambios (puedes personalizar la acción)
+        document.getElementById('inventoryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Aquí puedes recolectar los datos editados si lo necesitas
+            alert('Cambios guardados (simulado)');
+        });
+    </script>
+</body>
+</html>
