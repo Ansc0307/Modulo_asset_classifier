@@ -34,7 +34,7 @@
             </li>
         </ul>
         <p style="margin-bottom:0;"><b>Niveles:</b> Alto = 3, Medio = 2, Bajo = 1</p>
-        <p style="margin-bottom:0;"><b>Regla de confidencialidad:</b> Si Privacidad es <b>ALTO</b>, se suma 1 al valor de Confidencialidad (máximo 3).</p>
+        <p style="margin-bottom:0;"><b>Regla de confidencialidad:</b> Si Privacidad es <b>ALTO</b>, se suma 10 al porcentaje de Confidencialidad (máximo 40).</p>
         <p style="margin-bottom:0;"><b>Clasificación final:</b> 
             <br>0-40: USO PÚBLICO O GENERAL
             <br>41-60: USO INTERNO O PRIVADO
@@ -99,15 +99,6 @@
 
     // Renderizar tabla para cada activo
     activos.forEach((activo, idx) => {
-        // Por defecto, todos los niveles en 1 (bajo)
-        let valores = {
-            confidencialidad: 1,
-            integridad: 1,
-            disponibilidad: 1,
-            privacidad: 1
-        };
-
-        // HTML de la tabla
         let html = `
         <h3>${activo.sistema} - ${activo.descripcion}</h3>
         <form class="clasificacionForm">
@@ -134,21 +125,21 @@
                 <td>
                     ${nivelSelect('confidencialidad')}
                 </td>
-                <td>${porcentajes.confidencialidad}</td>
+                <td class="porcentajeConf">${valoresPorNivel.confidencialidad[1]}</td>
             </tr>
             <tr>
                 <td class="nivel">INTEGRIDAD</td>
                 <td>
                     ${nivelSelect('integridad')}
                 </td>
-                <td>${porcentajes.integridad}</td>
+                <td class="porcentajeInt">${valoresPorNivel.integridad[1]}</td>
             </tr>
             <tr>
                 <td class="nivel">DISPONIBILIDAD</td>
                 <td>
                     ${nivelSelect('disponibilidad')}
                 </td>
-                <td>${porcentajes.disponibilidad}</td>
+                <td class="porcentajeDisp">${valoresPorNivel.disponibilidad[1]}</td>
             </tr>
             <tr class="total">
                 <td>TOTAL</td>
@@ -162,12 +153,11 @@
         </form>
         <hr>
         `;
-        // Agregar al contenedor
+
         const div = document.createElement('div');
         div.innerHTML = html;
         container.appendChild(div);
 
-        // Lógica dinámica
         const form = div.querySelector('form');
         const privSelect = form.querySelector('select[name="privacidad"]');
         const confSelect = form.querySelector('select[name="confidencialidad"]');
@@ -176,6 +166,9 @@
         const totalValorTd = form.querySelector('.totalValor');
         const totalPorcTd = form.querySelector('.totalPorcentaje');
         const clasifSpan = form.querySelector('.clasificacionFinal span');
+        const porcentajeConfTd = form.querySelector('.porcentajeConf');
+        const porcentajeIntTd = form.querySelector('.porcentajeInt');
+        const porcentajeDispTd = form.querySelector('.porcentajeDisp');
 
         function actualizar() {
             let conf = parseInt(confSelect.value);
@@ -183,13 +176,19 @@
             let disp = parseInt(dispSelect.value);
             let priv = parseInt(privSelect.value);
 
-            // Si privacidad es ALTO, suma 1 a confidencialidad (máx 3)
-            let confReal = conf + (priv === 3 ? 1 : 0);
-            if (confReal > 3) confReal = 3;
+            // Porcentaje de confidencialidad (suma 10 si privacidad es ALTO, máx 40)
+            let porcConf = valoresPorNivel.confidencialidad[conf];
+            if (priv === 3) porcConf += 10;
+            if (porcConf > 40) porcConf = 40;
 
-            // Calcular valores y porcentajes
-            let valorTotal = confReal + integ + disp;
-            let porcTotal = valoresPorNivel.confidencialidad[confReal] + valoresPorNivel.integridad[integ] + valoresPorNivel.disponibilidad[disp];
+            // Actualizar porcentajes individuales
+            porcentajeConfTd.textContent = porcConf;
+            porcentajeIntTd.textContent = valoresPorNivel.integridad[integ];
+            porcentajeDispTd.textContent = valoresPorNivel.disponibilidad[disp];
+
+            // Calcular totales
+            let valorTotal = conf + integ + disp;
+            let porcTotal = porcConf + valoresPorNivel.integridad[integ] + valoresPorNivel.disponibilidad[disp];
 
             totalValorTd.textContent = valorTotal;
             totalPorcTd.textContent = porcTotal;
@@ -200,14 +199,12 @@
                 porcTotal > 60 ? '#ffcdd2' : porcTotal > 40 ? '#fff9c4' : '#e3f2fd';
         }
 
-        // Eventos
         [privSelect, confSelect, intSelect, dispSelect].forEach(sel => {
             sel.addEventListener('change', actualizar);
         });
-
-        // Inicializar
         actualizar();
     });
     </script>
 </body>
 </html>
+``` 
