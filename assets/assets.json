@@ -1,0 +1,54 @@
+[
+  {
+    "sistema": "Sistema web empresarial",
+    "descripcion": "Módulo informativo"
+  },
+  {
+    "sistema": "Sistema web empresarial",
+    "descripcion": "Módulo transaccional"
+  },
+  {
+    "sistema": "Sistema web empresarial",
+    "descripcion": "Módulo de seguridad"
+  },
+  {
+    "sistema": "Aplicación movil",
+    "descripcion": "Aplicación móvil con servicios transaccionales e informativos"
+  },
+  {
+    "sistema": "Chat web",
+    "descripcion": "Aplicación móvil de interacción con clientes"
+  },
+  {
+    "sistema": "Sistema Enterprise Resource Planning (ERP)",
+    "descripcion": "Sistema ERP - Módulo Contable"
+  },
+  {
+    "sistema": "Sistema Enterprise Resource Planning (ERP)",
+    "descripcion": "Sistema ERP - Módulo de Tesorería"
+  },
+  {
+    "sistema": "Sistema Enterprise Resource Planning (ERP)",
+    "descripcion": "Sistema ERP - Módulo de Adquisiciones"
+  },
+  {
+    "sistema": "Sistema Enterprise Resource Planning (ERP)",
+    "descripcion": "Sistema ERP - Módulo de Ventas"
+  },
+  {
+    "sistema": "Sistema Enterprise Resource Planning (ERP)",
+    "descripcion": "Sistema ERP - Módulo de Presupuestos"
+  },
+  {
+    "sistema": "Sistema Enterprise Resource Planning (ERP)",
+    "descripcion": "Sistema ERP - Módulo de Inventarios"
+  },
+  {
+    "sistema": "Sistema Enterprise Resource Planning (ERP)",
+    "descripcion": "Sistema ERP - Módulo de RRHH"
+  },
+  {
+    "sistema": "Sistema Enterprise Resource Planning (ERP)",
+    "descripcion": "Sistema ERP - Módulo de Administración de Usuarios"
+  }
+]

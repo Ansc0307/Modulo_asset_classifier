@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Selección de Activos</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #1a237e; padding: 6px 8px; }
+        th { background: #1a237e; color: #fff; }
+        .add-form { margin-top: 20px; }
+        .btn { background: #1a237e; color: #fff; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; }
+        .btn:hover { background: #3949ab; }
+    </style>
+</head>
+<body>
+    <h2>Seleccione los activos de información</h2>
+    <form id="assetsForm">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Sistema</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody id="assetsTableBody">
+                <!-- Aquí se cargan los activos desde el JSON -->
+            </tbody>
+        </table>
+        <button type="submit" class="btn">Guardar selección</button>
+    </form>
+
+    <div class="add-form">
+        <h3>Agregar otro activo manualmente</h3>
+        <form id="addAssetForm">
+            <input type="text" id="nuevoSistema" placeholder="Sistema" required>
+            <input type="text" id="nuevaDescripcion" placeholder="Descripción" required>
+            <button type="submit" class="btn">Agregar activo</button>
+        </form>
+    </div>
+
+    <script>
+        fetch('../assets/assets.json')
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('assetsTableBody');
+                data.forEach((item, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><input type="checkbox" name="activo[]" value="${item.sistema} - ${item.descripcion}"></td>
+                        <td>${item.sistema}</td>
+                        <td>${item.descripcion}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            });
+
+        // Agregar nuevo activo manualmente
+        document.getElementById('addAssetForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const sistema = document.getElementById('nuevoSistema').value;
+            const descripcion = document.getElementById('nuevaDescripcion').value;
+            const tbody = document.getElementById('assetsTableBody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input type="checkbox" name="activo[]" value="${sistema} - ${descripcion}"></td>
+                <td>${sistema}</td>
+                <td>${descripcion}</td>
+            `;
+            tbody.appendChild(tr);
+            this.reset();
+        });
+    </script>
+</body>
+</html>
