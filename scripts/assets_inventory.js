@@ -75,5 +75,5 @@
 
         // Botón para clasificación con cuestionario
         document.getElementById('btnCuestionario').onclick = function() {
-            window.location.href = '../assetsQuestions/assets_form.html';
+            window.location.href = '../screens/assetsQuestions/assets_form.html';
         };
