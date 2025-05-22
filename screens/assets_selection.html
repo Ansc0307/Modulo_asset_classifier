@@ -3,104 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Selección de Activos</title>
-    <style>
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #1a237e; padding: 6px 8px; }
-        th { background: #1a237e; color: #fff; }
-        .add-form { margin-top: 20px; }
-        .btn { background: #1a237e; color: #fff; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; }
-        .btn:hover { background: #3949ab; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h2>Seleccione los activos de información</h2>
-    <form id="assetsForm">
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Sistema</th>
-                    <th>Descripción</th>
-                </tr>
-            </thead>
-            <tbody id="assetsTableBody">
-                <!-- Aquí se cargan los activos desde el JSON -->
-            </tbody>
-        </table>
-        <button type="submit" class="btn">Guardar selección</button>
-    </form>
-
-    <div class="add-form">
-        <h3>Agregar otro activo manualmente</h3>
-        <form id="addAssetForm">
-            <input type="text" id="nuevoSistema" placeholder="Sistema" required>
-            <input type="text" id="nuevaDescripcion" placeholder="Descripción" required>
-            <button type="submit" class="btn">Agregar activo</button>
+<body class="bg-light">
+    <div class="container py-4">
+        <h2 class="mb-4">Seleccione los activos de información</h2>
+        <form id="assetsForm">
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead class="table-primary">
+                        <tr>
+                            <th></th>
+                            <th>Sistema</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assetsTableBody">
+                        <!-- Aquí se cargan los activos desde el JSON -->
+                    </tbody>
+                </table>
+            </div>
+            <button type="submit" class="btn btn-success mt-2">Guardar selección</button>
         </form>
+
+        <div class="card mt-5">
+            <div class="card-header bg-primary text-white">
+                Agregar otro activo manualmente
+            </div>
+            <div class="card-body">
+                <form id="addAssetForm" class="row g-2 align-items-end">
+                    <div class="col-md-5">
+                        <label for="nuevoSistema" class="form-label mb-1">Sistema</label>
+                        <input type="text" id="nuevoSistema" class="form-control" placeholder="Sistema" required>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="nuevaDescripcion" class="form-label mb-1">Descripción</label>
+                        <input type="text" id="nuevaDescripcion" class="form-control" placeholder="Descripción" required>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">Agregar activo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <script>
-        let activosJSON = [];
-
-        // Cargar activos desde el JSON
-        fetch('../assets/assets.json')
-            .then(response => response.json())
-            .then(data => {
-                activosJSON = data;
-                const tbody = document.getElementById('assetsTableBody');
-                data.forEach((item, idx) => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><input type="checkbox" name="activo[]" value="${item.sistema}|||${item.descripcion}"></td>
-                        <td>${item.sistema}</td>
-                        <td>${item.descripcion}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            });
-
-        // Agregar nuevo activo manualmente
-        document.getElementById('addAssetForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const sistema = document.getElementById('nuevoSistema').value;
-            const descripcion = document.getElementById('nuevaDescripcion').value;
-            const tbody = document.getElementById('assetsTableBody');
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td><input type="checkbox" name="activo[]" value="${sistema}|||${descripcion}|||manual"></td>
-                <td>${sistema}</td>
-                <td>${descripcion}</td>
-            `;
-            tbody.appendChild(tr);
-            this.reset();
-        });
-
-        // Guardar selección en LocalStorage
-        document.getElementById('assetsForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const seleccionados = [];
-            document.querySelectorAll('input[type="checkbox"][name="activo[]"]:checked').forEach(cb => {
-                const partes = cb.value.split('|||');
-                // Si es manual, solo tiene sistema y descripcion
-                if (partes[2] === 'manual') {
-                    seleccionados.push({
-                        sistema: partes[0],
-                        descripcion: partes[1],
-                        manual: true
-                    });
-                } else {
-                    // Buscar el objeto completo en el JSON
-                    const encontrado = activosJSON.find(a => a.sistema === partes[0] && a.descripcion === partes[1]);
-                    if (encontrado) {
-                        seleccionados.push({...encontrado, manual: false});
-                    }
-                }
-            });
-            // Guardar en localStorage
-            localStorage.setItem('activosSeleccionados', JSON.stringify(seleccionados));
-            // Redirigir a inventory
-            window.location.href = 'assets_inventory.html';
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../scripts/assets_selection.js"></script>
 </body>
 </html>
