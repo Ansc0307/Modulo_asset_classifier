@@ -27,7 +27,7 @@
         const forms = document.querySelectorAll('.clasificacionForm');
         let filas = [];
         let encabezados = [
-            "Sistema", "Descripción", "Clasificación", "Propietario", "Autorizador", "Estado", "Comentarios",
+            "Sistema", "Descripción",  "Propietario", "Autorizador", "Estado", "Comentarios",
             "Confidencialidad (valor)", "Confidencialidad (%)","Privacidad (valor)",
             "Integridad (valor)", "Integridad (%)",
             "Disponibilidad (valor)", "Disponibilidad (%)", 
@@ -51,7 +51,7 @@
             let clasif = clasificacionFinal(porcTotal);
 
             filas.push([
-                item.sistema, item.descripcion, item.clasificacion, item.propietario, item.autorizador, item.estado, item.comentarios,
+                item.sistema, item.descripcion, item.propietario, item.autorizador, item.estado, item.comentarios,
                 conf, porcConf, priv, integ, porcInt, disp, porcDisp, porcTotal, clasif
             ]);
         });

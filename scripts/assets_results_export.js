@@ -51,7 +51,7 @@ document.getElementById('btnExportarInventario').onclick = function () {
   const inventario = JSON.parse(localStorage.getItem('inventarioEditado') || '[]');
 
   let encabezados = [
-    "Sistema", "Descripción", "Clasificación", "Propietario", "Autorizador", "Estado", "Comentarios",
+    "Sistema", "Descripción", "Propietario", "Autorizador", "Estado", "Comentarios",
     "Confidencialidad (valor)", "Confidencialidad (%)", "Privacidad (valor)",
     "Integridad (valor)", "Integridad (%)",
     "Disponibilidad (valor)", "Disponibilidad (%)",
@@ -62,7 +62,7 @@ document.getElementById('btnExportarInventario').onclick = function () {
     const info = inventario[idx] || {};
 
     return [
-      info.sistema || '', info.descripcion || '', info.clasificacion || '', info.propietario || '', info.autorizador || '', info.estado || '', info.comentarios || '',
+      info.sistema || '', info.descripcion || '', info.propietario || '', info.autorizador || '', info.estado || '', info.comentarios || '',
       activo.confidencialidad.valor || '', activo.confidencialidad.porcentaje || '',
       activo.privacidad?.valor ?? 'N/A',
       activo.integridad.valor || '', activo.integridad.porcentaje || '',
