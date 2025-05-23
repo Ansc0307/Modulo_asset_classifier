@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Selección de Activos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/rederectbutton.css">
+</head>
+<body class="bg-light">
+    <div class="container py-4">
+        <h2 class="text-center text-primary mb-4 fw-bold">Seleccione los activos de información</h2>
+
+       
+        
+       <button class="redirect-button" onclick="window.location.href='home.html'">
+    Ir a Home
+  </button>
+       
+        
+
+        <form id="assetsForm">
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead class="table-primary">
+                        <tr>
+                            <th></th>
+                            <th>Sistema</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assetsTableBody">
+                        <!-- Aquí se cargan los activos desde el JSON -->
+                    </tbody>
+                </table>
+            </div>
+            <button type="submit" class="btn btn-success mt-2">Guardar selección</button>
+        </form>
+
+        <div class="card mt-5">
+            <div class="card-header bg-primary text-white">
+                Agregar otro activo manualmente
+            </div>
+            <div class="card-body">
+                <form id="addAssetForm" class="row g-2 align-items-end">
+                    <div class="col-md-5">
+                        <label for="nuevoSistema" class="form-label mb-1">Sistema</label>
+                        <input type="text" id="nuevoSistema" class="form-control" placeholder="Sistema" required>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="nuevaDescripcion" class="form-label mb-1">Descripción</label>
+                        <input type="text" id="nuevaDescripcion" class="form-control" placeholder="Descripción" required>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">Agregar activo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../scripts/assets_selection.js"></script>
+</body>
+</html>

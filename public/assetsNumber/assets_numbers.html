@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Clasificación Directa de Activos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-4">
+        <!-- Botón de exportar -->
+
+        <h1 class="text-center text-primary mb-4 fw-bold">Clasificación de Activos</h1>
+        <div class="mt-4 mb-4 text-start">
+    <button class="btn btn-primary px-3 py-1.5 fw-semibold  shadow-sm" onclick="window.location.href='../assets_inventory.html'">
+    Volver 
+  </button>
+    <button id="btnExportar" class="btn btn-primary mb-0.5">Exportar</button>
+  
+</div>
+
+        <!-- Descripción -->
+        <div class="alert alert-info">
+            <h5 class="mb-2">¿Cómo calificar?</h5>
+            <ul class="mb-2">
+                <li><b>Confidencialidad:</b> Si esta información llegara a ser conocida por individuos no autorizados o incluso hecha pública. Afectación de procesos críticos, afectación legal, financiera, organizacional.</li>
+                <li><b>Integridad:</b> Si esta información llegara a ser indebida o inadecuadamente alterada, actualizada o modificada, ya sea intencionalmente o por accidente. Afectación de procesos críticos, afectación legal, financiera, organizacional.</li>
+                <li><b>Disponibilidad:</b> Si esta información llegara a no estar disponible permanentemente o por un periodo considerable de tiempo. Afectación de procesos críticos, afectación legal, financiera, organizacional.</li>
+                <li><b>Privacidad:</b> Si la información es demográfica o propia del cliente, si contiene cualquier dato que por sí mismo pueda ser usado (sin tener que consultar otro activo de información) para identificar a un cliente de manera individualizada; ya sea este cliente una persona, una empresa, etc. Ejemplos: Nombre o Razón Social, Número de Teléfono, Carnet de Identidad, etc. La información es anónima si no identifica de manera específica a una persona natural/jurídica, es decir, identifica atributos propios de las personas.</li>
+            </ul>
+            <p class="mb-1"><b>Niveles:</b> Alto = 3, Medio = 2, Bajo = 1</p>
+            <p class="mb-1"><b>Regla de confidencialidad:</b> Si Privacidad es <b>ALTO</b>, se suma 10 al porcentaje de Confidencialidad (máximo 40).</p>
+            <p class="mb-0"><b>Clasificación final:</b><br>
+                0-40: USO PÚBLICO O GENERAL<br>
+                41-60: USO INTERNO O PRIVADO<br>
+                61-100: CRÍTICO O CONFIDENCIAL
+            </p>
+        </div>
+
+        <h2 class="mb-4">Clasificación Directa de Activos</h2>
+        <div id="activosContainer"></div>
+    </div>
+
+    <!-- Modal Bootstrap -->
+    <div class="modal fade" id="modalExportar" tabindex="-1" aria-labelledby="modalExportarLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalExportarLabel">¿Qué deseas exportar?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body text-center">
+            <button id="btnExportarInventario" class="btn btn-success m-2">Inventario completo</button>
+            <button id="btnExportarResumen" class="btn btn-info m-2">Resumen de clasificación</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../scripts/assets_number.js"></script>
+    <script src="../../scripts/exportacion_csv.js"></script>
+    <script>
+        // Mostrar modal con Bootstrap
+        document.getElementById('btnExportar').onclick = function() {
+            var modal = new bootstrap.Modal(document.getElementById('modalExportar'));
+            modal.show();
+        };
+    </script>
+</body>
+</html>
