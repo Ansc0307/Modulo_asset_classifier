@@ -2,7 +2,6 @@
         const campos = [
             "sistema",
             "descripcion",
-            "clasificacion",
             "propietario",
             "autorizador",
             "estado",
@@ -13,7 +12,6 @@
         const nombres = {
             sistema: "Sistema",
             descripcion: "Descripción",
-            clasificacion: "Clasificación",
             propietario: "Propietario",
             autorizador: "Autorizador",
             estado: "Estado",
@@ -30,7 +28,6 @@
             tr.innerHTML = `
                 <td><input name="sistema" value="${item.sistema || ''}" class="form-control form-control-sm"></td>
                 <td><input name="descripcion" value="${item.descripcion || ''}" class="form-control form-control-sm"></td>
-                <td><input name="clasificacion" value="${item.clasificacion || ''}" class="form-control form-control-sm"></td>
                 <td><input name="propietario" value="${item.propietario || ''}" class="form-control form-control-sm"></td>
                 <td><input name="autorizador" value="${item.autorizador || ''}" class="form-control form-control-sm"></td>
                 <td><input name="estado" value="${item.estado || ''}" class="form-control form-control-sm"></td>
@@ -52,11 +49,10 @@
             inventarioEditado.push({
                 sistema: inputs[0].value,
                 descripcion: inputs[1].value,
-                clasificacion: inputs[2].value,
-                propietario: inputs[3].value,
-                autorizador: inputs[4].value,
-                estado: inputs[5].value,
-                comentarios: inputs[6].value
+                propietario: inputs[2].value,
+                autorizador: inputs[3].value,
+                estado: inputs[4].value,
+                comentarios: inputs[5].value
             });
         });
 

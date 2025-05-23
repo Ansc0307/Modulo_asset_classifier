@@ -1,54 +1,89 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Clasificación Final</title>
-    <style>
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid black; padding: 5px; text-align: center; }
-        th { background: #03A9F4; color: white; }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Clasificación Final</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    thead th {
+      text-align: center;
+      vertical-align: middle;
+    }
+    table th[colspan="2"] {
+      color: white;
+    }
+    .bg-confidencialidad { background-color: #ef6c00; }
+    .bg-integridad { background-color: #ffccbc; }
+    .bg-disponibilidad { background-color: #ffee58; }
+  </style>
 </head>
-<body>
-    <h2>Clasificación Final de Activos</h2>
-    <table>
+<body class="bg-light">
+
+  <div class="container py-5">
+    <h2 class="text-center text-primary mb-4 fw-bold">Clasificación Final de Activos</h2>
+
+    <div class="mt-4 mb-4 text-start">
+      <button class="btn btn-primary px-3 py-1.5 fw-semibold shadow-sm" onclick="window.location.href='assets_form.html'">
+        Volver 
+      </button>
+      <button id="btnExportar" class="btn btn-primary">Exportar</button>
+    </div>
+
+    <!-- Modal exportar -->
+    <div id="modalExportar" style="display: none; position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
+      <div style="background: white; padding: 20px; border-radius: 8px;">
+        <h5>Exportar Clasificación</h5>
+        <button id="btnExportarInventario" class="btn btn-success my-2">Exportar Completo</button>
+        <button id="btnExportarResumen" class="btn btn-secondary my-2">Exportar Resumen</button>
+        <button onclick="document.getElementById('modalExportar').style.display='none'" class="btn btn-danger">Cancelar</button>
+      </div>
+    </div>
+
+    <div class="table-responsive shadow rounded-4">
+      <table class="table table-bordered table-striped align-middle text-center bg-white">
         <thead>
-            <tr>
-                <th rowspan="2">ACTIVO DE INFORMACIÓN</th>
-                <th colspan="2" style="background:#ef6c00">CONFIDENCIALIDAD</th>
-                <th colspan="2" style="background:#ffccbc">INTEGRIDAD</th>
-                <th colspan="2" style="background:#ffee58">DISPONIBILIDAD</th>
-                <th rowspan="2">%</th>
-                <th rowspan="2">NIVEL</th>
-            </tr>
-            <tr>
-                <th>Valor</th><th>Porcentaje</th>
-                <th>Valor</th><th>Porcentaje</th>
-                <th>Valor</th><th>Porcentaje</th>
-            </tr>
+          <tr>
+            <th rowspan="2" class="align-middle">ACTIVO DE INFORMACIÓN</th>
+            <th colspan="2" class="bg-confidencialidad text-dark">CONFIDENCIALIDAD</th>
+            <th colspan="2" class="bg-integridad text-dark">INTEGRIDAD</th>
+            <th colspan="2" class="bg-disponibilidad text-dark">DISPONIBILIDAD</th>
+            <th rowspan="2" class="align-middle">%</th>
+            <th rowspan="2" class="align-middle">NIVEL</th>
+          </tr>
+          <tr>
+            <th>Valor</th><th>%</th>
+            <th>Valor</th><th>%</th>
+            <th>Valor</th><th>%</th>
+          </tr>
         </thead>
         <tbody id="tablaFinal"></tbody>
-    </table>
+      </table>
+    </div>
+  </div>
 
-    <script>
-        const resultados = JSON.parse(localStorage.getItem('resultadosCID') || '[]');
-        const tbody = document.getElementById('tablaFinal');
+  <script>
+    // Carga los resultados desde localStorage
+    const resultados = JSON.parse(localStorage.getItem('resultadosCID') || '[]');
+    const tbody = document.getElementById('tablaFinal');
 
-        resultados.forEach(activo => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${activo.sistema}</td>
-                <td>${activo.confidencialidad.valor}</td>
-                <td>${activo.confidencialidad.porcentaje}</td>
-                <td>${activo.integridad.valor}</td>
-                <td>${activo.integridad.porcentaje}</td>
-                <td>${activo.disponibilidad.valor}</td>
-                <td>${activo.disponibilidad.porcentaje}</td>
-                <td>${activo.clasificacionTotal}%</td>
-                <td>${activo.nivel}</td>
-            `;
-            tbody.appendChild(row);
-        });
-    </script>
+    // Pintar tabla
+    resultados.forEach(activo => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${activo.sistema}</td>
+        <td>${activo.confidencialidad.valor}</td>
+        <td>${activo.confidencialidad.porcentaje}</td>
+        <td>${activo.integridad.valor}</td>
+        <td>${activo.integridad.porcentaje}</td>
+        <td>${activo.disponibilidad.valor}</td>
+        <td>${activo.disponibilidad.porcentaje}</td>
+        <td>${activo.clasificacionTotal}%</td>
+        <td class="fw-bold">${activo.nivel}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+  </script>
+<script src="../../scripts/assets_results_export.js"></script>
 </body>
 </html>
