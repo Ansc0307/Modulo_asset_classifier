@@ -1,7 +1,7 @@
 let activosJSON = [];
 
         // Cargar activos desde el JSON
-        fetch('../assets/assets.json')
+        fetch('assets/assets.json')
             .then(response => response.json())
             .then(data => {
                 activosJSON = data;
